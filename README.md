@@ -3,7 +3,7 @@ wordlist.py is a basic text parser written in Python that operates on a dictiona
 
 It can be used to find all n-letter words matching a given set of criteria. The default is 5-letter words, those featured in the game Wordle.
 
-##usage: wordlist.py [-h] [-n NLETTERS] [-d DICT] [-i IGNORE] [-c CONTAINS] [-m MATCH] [-e EXCLUDE]
+## usage: wordlist.py [-h] [-n NLETTERS] [-d DICT] [-i IGNORE] [-c CONTAINS] [-m MATCH] [-e EXCLUDE]
 
 options:
   -h, --help            show this help message and exit
