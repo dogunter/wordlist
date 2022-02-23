@@ -1,7 +1,13 @@
 #! /usr/bin/env python
 
+'''
+wordlist ("wordle-ist")
+A tool to help one solve a daily Wordle game.
+'''
+
 import re
 import argparse
+import pandas as pd
 
 # Open the dictionary and return a list of nLetter words
 def getWords(dictFile, nLetters):
@@ -26,6 +32,17 @@ def removeIgnored(words, ignored):
       words.remove(word)
 
    return words
+
+# Remove previous Wordle solutions from current words list
+def paredWords(wordleFile, words):
+   # Read in csv file of previous Wordle solutions
+   # First line is the header: date, puzzle number, word
+   df = pd.read_csv(wordleFile)
+   used_words = df["word"].astype(str).tolist()
+   used_words = [x.strip().lower() for x in used_words]
+   words = [x.lower() for x in words]
+   pared_words = [ x for x in words if x not in used_words ]
+   return pared_words
 
 def mustContain(words, contains):
    goodWords = []
@@ -117,6 +134,7 @@ if __name__ == "__main__":
    parser.add_argument("-c", "--contains", type=str, default="", help="Must contain these letters.")
    parser.add_argument("-m", "--match", type=str, help="Match these letters in given positions.")
    parser.add_argument("-e", "--exclude", type=str, help="Exclude words with these letters in specified positions.")
+   parser.add_argument("-p", "--pared", type=str, nargs='?', const="wordle-words.csv", help="Exclude words that were previous Wordle solutions.")
 
    args = parser.parse_args()
 
@@ -127,6 +145,7 @@ if __name__ == "__main__":
    contains = args.contains
    match = args.match
    exclude = args.exclude
+   pared = args.pared
 
    # Get the list of nLetter-words
    words = getWords(dictFile, nLetters)
@@ -147,6 +166,10 @@ if __name__ == "__main__":
    # Exclude words that have these letters in the specified positions
    if exclude:
       words = excludeSpecified(words, exclude)
+ 
+   # Remove previous Wordle solutions as possibilities
+   if pared:
+      words = paredWords(pared, words)
 
    print(words)
 

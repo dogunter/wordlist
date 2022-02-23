@@ -34,6 +34,10 @@ The dictionary file `words.english` in this repo was taken from `/usr/share/dict
   -e EXCLUDE, --exclude EXCLUDE
   
                         Exclude words with these letters in specified positions.
+
+  -p PARED, --pared PARED
+                        Exclude words that were previous Wordle solutions.
+
 ```                
 
 ## Examples.
