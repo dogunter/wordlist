@@ -13,6 +13,8 @@ import pandas as pd
 def getWords(dictFile, nLetters):
    with open(dictFile, 'r') as infile:
       words = [word for word in infile.read().split() if len(word) == nLetters]
+   # Remove capitalized words
+   words = [word for word in words if not re.search(r'^[A-Z]', word)]
    return(words)
  
 def removeIgnored(words, ignored):
